@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Snake Game Login</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+    body {
+      font-family: "Poppins", sans-serif;
+      margin: 0; padding: 0; height: 100vh;
+      background: linear-gradient(135deg, #FF6B6B 0%, #FFD166 25%, #06D6A0 50%, #118AB2 75%, #073B4C 100%);
+      background-size: 400% 400%; animation: gradientBG 10s ease infinite;
+      color: #222; overflow-x: hidden;
+    }
+    @keyframes gradientBG { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+    h1{ text-align:center; font-size:2.6em; color:#fff; margin-top:30px; text-shadow:2px 2px 6px rgba(0,0,0,0.35); }
+    h3{ text-align:center; color:#e0f7fa; margin-top:-6px; margin-bottom:18px; }
+
+    .marquee-box { width:60%; margin:0 auto 18px; border:2px solid #fff; border-radius:10px; overflow:hidden; background:rgba(255,255,255,0.12); }
+    .marquee-text { display:inline-block; white-space:nowrap; animation:move 12s linear infinite; color:#fff; font-weight:600; padding:10px; }
+    @keyframes move { from{transform:translateX(100%)} to{transform:translateX(-100%)} }
+
+    .container { display:flex; justify-content:center; align-items:flex-start; gap:30px; flex-wrap:wrap; margin-top:10px; }
+    .login-section {
+      background: rgba(255,255,255,0.95); width:400px; padding:22px 26px; border-radius:12px;
+      box-shadow:0 8px 25px rgba(0,0,0,0.18); text-align:center;
+    }
+    input { width:80%; padding:10px; margin:10px; border-radius:8px; border:1px solid #ccc; font-size:1em; display:block; margin-left:auto; margin-right:auto; }
+    button { background-color:#2a9d8f; color:#fff; padding:10px 24px; border:none; border-radius:8px; font-size:1em; cursor:pointer; transition:.2s; }
+    button:hover { transform:scale(1.03); background-color:#21867a; }
+
+    .rules { background: rgba(255,255,255,0.95); width:350px; padding:18px; border-radius:12px; box-shadow:0 4px 18px rgba(0,0,0,0.15); text-align:left; }
+    .rules h2 { color:#2a2a72; text-align:center; font-size:1.3em; margin-bottom:10px; text-decoration:underline; }
+    ol{ font-size:1.02em; color:#333; line-height:1.6; padding-left:20px; }
+
+    /* Simple popup */
+    #popup { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:999; }
+    #popup .box { background:#fff; padding:18px 22px; border-radius:10px; text-align:center; width:320px; box-shadow:0 8px 30px rgba(0,0,0,0.4); }
+    #popup .box p { margin:10px 0 16px; font-size:1em; color:#222; }
+    #popup .box .actions { display:flex; flex-direction:column; gap:10px; justify-content:center; align-items:center; }
+    #popup .btn { padding:8px 14px; border-radius:8px; border:none; cursor:pointer; font-weight:600; text-decoration:none; color:#fff; background:#2a9d8f; width:80%; text-align:center; }
+    #popup .btn.close { background:#e63946; }
+
+    @media (max-width:900px){ .container{ flex-direction:column; align-items:center } }
+  </style>
+</head>
+<body>
+
+  <h1>🐍 Welcome to Snake Game 🕹️</h1>
+  <h3>Classic arcade fun meets coding adventure!</h3>
+
+  <div class="marquee-box">
+    <div class="marquee-text">🎯 Just try your gaming skill — how far can you go? 🚀</div>
+  </div>
+
+  <div class="container">
+    <div class="login-section">
+      <h2>🔐 Player Login</h2>
+
+      <!-- Form shows popup on submit -->
+      <form onsubmit="showPopup(event)">
+        <input type="text" name="username" placeholder="Enter Username" required>
+        <input type="password" name="password" placeholder="Enter Password" required>
+        <button type="submit">Start Game</button>
+      </form>
+    </div>
+
+    <div class="rules">
+      <h2>📜 Game Rules</h2>
+      <ol>
+        <li>Use W, A, S, D keys to move your snake.</li>
+        <li>Eat fruits to score and grow longer.</li>
+        <li>Don’t collide with walls or yourself.</li>
+        <li>Each fruit gives +10 points.</li>
+        <li>Speed increases automatically as you grow.</li>
+      </ol>
+      <div style="background:#dceefb; padding:10px; border-radius:8px; text-align:center; font-weight:700; color:#1b4965; margin-top:12px;">
+        🕹️ Controls: W (Up) | S (Down) | A (Left) | D (Right) | X (Quit)
+      </div>
+    </div>
+  </div>
+
+  <!-- POPUP -->
+  <div id="popup">
+    <div class="box">
+      <p>✅ Login Successful! Choose an option below:</p>
+      <div class="actions">
+        <a id="openVsCode" class="btn" href="#">🔵 Open in VS Code</a>
+        <a class="btn" href="snake.exe" download>⬇️ Download Game</a>
+        <button class="btn close" onclick="closePopup()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showPopup(e) {
+      e.preventDefault();
+      document.getElementById('popup').style.display = 'flex';
+    }
+    function closePopup() {
+      document.getElementById('popup').style.display = 'none';
+    }
+
+    const filePath = "C:\\Users\\princ\\OneDrive\\web programming\\snake.c";
+    const vscodeUrl = "vscode://file/" + encodeURIComponent(filePath.replace(/\\/g, "/"));
+
+    document.getElementById("openVsCode").addEventListener("click", function(e) {
+      e.preventDefault();
+      window.location.href = vscodeUrl; 
+    });
+  </script>
+
+</body>
+</html>
